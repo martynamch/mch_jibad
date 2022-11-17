@@ -1,5 +1,5 @@
 def build(l0):
-    l = tuple(set(l0))
+    l = tuple(set(l0))  # nieczytelne nazwy zmiennych
     d = {}
     nodes = [0]
 
@@ -86,13 +86,13 @@ def build(l0):
 
 
 def search(automaton, text):
-    trie = automaton[0]
+    trie = automaton[0]  # czemu automaton nie jest słownikiem?
     fail_links = automaton[1]
     acc_state = automaton[3]
 
     i = 0
     n = 0
-    sailed = []
+    sailed = []  # sailed?
     result = []
 
     while n < len(text):
@@ -100,8 +100,8 @@ def search(automaton, text):
 
         if i in acc_state.keys():
             sailed.append(i)
-            i = fail_links[i]
-        elif t in trie[i].keys():
+            i = fail_links[i]  # a to czemu?
+        elif t in trie[i]:
             i = trie[i][t]
             n += 1
         else:
