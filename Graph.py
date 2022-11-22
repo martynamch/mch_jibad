@@ -2,11 +2,11 @@ import string
 
 
 class Graph:
-    alphabet = list(string.ascii_lowercase)
-    visited = list()
+    alphabet = list(string.ascii_lowercase)  # jeszcze nie wiem, co to jest, ale nie powinno tego być
+    visited = list()    # podobnie
 
     def __init__(self, grp):
-        self.grp = dict(grp)
+        self.grp = dict(grp)  # czmu grp?
 
     def __iter__(self):
         return self
@@ -14,14 +14,15 @@ class Graph:
     def __next__(self):
         while True:
             try:
-                x = next(self.visited)
+                x = next(self.visited)  # a kto inicjalizuje visited?
                 print(x)
             except StopIteration:
                 break
+        # a gdzie jakiś return, jakieś StopIteration?
 
     def add_edge(self, node1, node2):
-        edge = Graph.alphabet.pop(0)
-        self.grp[node1].update({edge: node2})
+        edge = Graph.alphabet.pop(0)  # a jak się skończą literki?
+        self.grp[node1][edge] = node2
         self.grp[node2].update({edge: node1})
 
     def add_node(self, parents, child):
@@ -69,7 +70,7 @@ class Graph:
                 if not v in self.visited and not v in nodes:
                     nodes.append(v)
 
-        return self.visited
+        return self.visited  # Uwaga: metody nie mają zwracać listy ani krotki, tylko iterator (metody __iter__ i __next__).
 
     def dfs(self, node):
         nodes = list()
