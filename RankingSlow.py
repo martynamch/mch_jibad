@@ -55,4 +55,4 @@ def get_top_n(g, n):
 
 
 g = gen_tokens("C:\\Users\\marty\\Downloads\\potop.txt")
-get_top_n(g, 5)
+get_top_n(g, 100)
