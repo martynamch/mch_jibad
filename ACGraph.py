@@ -2,11 +2,11 @@ class ACGraph:
 
     ac = {0:  {}}
 
-    def __init__(self, patterns):
+    def __init__(self, patterns):  # czy ten obiekt jest gotowy do użycia?
         self.patterns = tuple(set(patterns))
 
     def build(self):
-        nodes = [item for item in range(1, 10000000)]
+        nodes = [item for item in range(1, 10000000)]  # po co nam prawie 10 mln liczb?
 
         for pattern in self.patterns:
             n = 0
@@ -27,7 +27,7 @@ class ACGraph:
         try:
             self.ac[parent].update({edge: child})
         except KeyError:
-            print("Error. Node does not exist yet.")
+            print("Error. Node does not exist yet.")  # wymiana wyjątku na komunikat w konsoli jest bardzo nieopłacalna
 
     def add_node(self, child):
         self.ac[child] = {}
@@ -112,7 +112,7 @@ class ACGraph:
 
     def search(self, text):
 
-        trie = self.build().copy()
+        trie = self.build().copy()  # czy do każdego wyszukiwania trzeba na nowo budować automat?
 
         childless_nodes = []
         for key in self.ac.keys():

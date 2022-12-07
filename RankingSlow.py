@@ -3,7 +3,7 @@ def gen_tokens(filename):
         for line in infile:
             if line.strip():
                 tokens = line.rstrip().split()
-                yield tokens
+                yield tokens    # na pewno?
 
 def remove_key(d, key):
     r = dict(d)
@@ -13,7 +13,7 @@ def remove_key(d, key):
 
 
 def clean_word(word):
-    replacement_dict = {}
+    replacement_dict = {}   # prosi się o dict comprehension
     characters_to_drop = '!.?<>";:-+=/"\'<>[]{}()'
     for c in characters_to_drop:
         replacement_dict[c] = ''
@@ -26,18 +26,17 @@ def clean_word(word):
 
     return word
 
-def create_counting_dict(g):
-    rank_dict = {}
-    for i in g:
+def create_counting_dict(g):  # nieczytelna nazwa parametru
+    rank_dict = {}    # polecam klasę collections.Counter
+    for i in g: # nieczytelne nazwy
         for k in i:
-            j = clean_word(k)
+            j = clean_word(k)  # jw.
             if j not in rank_dict.keys():
                 rank_dict[j] = 1
             else:
-                prev_count = rank_dict[j]
-                rank_dict[j] = prev_count + 1
+                rank_dict[j] = rank_dict[j] + 1
 
-    rank_dict = remove_key(rank_dict, '')
+    rank_dict = remove_key(rank_dict, '')   # a czemu nie użyć tutaj del?
 
     return rank_dict
 
@@ -45,14 +44,15 @@ def get_top_n(g, n):
 
     rank_dict = create_counting_dict(g)
 
-    r = sorted(set(rank_dict.values()), reverse=False)
+    r = sorted(set(rank_dict.values()))
 
     for i in range(0, n):
         top = r.pop()
-        for k, v in rank_dict.items():
+        for k, v in rank_dict.items():  # bardzo niewydajne
             if v == top:
                 print(i+1, ". Słowo \"", k, "\" wystąpiło: ", v, " razy", sep="")
+        # źle działa, jeśli remis wystąpi wcześniej niż na końcu
 
 
-g = gen_tokens("C:\\Users\\marty\\Downloads\\potop.txt")
+g = gen_tokens("C:\\Users\\marty\\Downloads\\potop.txt")    # proszę nie zaszywać ścieżek bezwzględnych w kodzie
 get_top_n(g, 100)
