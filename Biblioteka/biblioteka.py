@@ -19,7 +19,7 @@ def menu(options):
         try:
             choice = int(input("Podaj numer: "))
             if 0 < choice <= len(options):
-                func, args, kwargs = options[choice - 1][1]  # return nie musi być
+                func, args, kwargs = options[choice - 1][1]
                 return func(*args, **kwargs)
         except ValueError:
             pass
