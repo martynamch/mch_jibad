@@ -243,13 +243,6 @@ def rezerwuj_ksiazke(nick):
 
 def wypozycz_ksiazke(nick):
 
-    dt = datetime.date.today()
-
-    month = dt.month
-    year = dt.year + month // 12
-    month = month % 12 + 1
-    day = min(dt.day, calendar.monthrange(year, month)[1])
-
     tytul = input("Podaj tytuł: ")
     autor = input("Podaj autora: ")
 
@@ -283,4 +276,3 @@ def library():
 
 
 library()
-
