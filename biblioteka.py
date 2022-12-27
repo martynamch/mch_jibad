@@ -19,7 +19,7 @@ def menu(options):
         try:
             choice = int(input("Podaj numer: "))
             if 0 < choice <= len(options):
-                func, args, kwargs = options[choice - 1][1]  # return nie musi być
+                func, args, kwargs = options[choice - 1][1]
                 return func(*args, **kwargs)
         except ValueError:
             pass
@@ -150,13 +150,6 @@ def ocen_poprawnosc_akcji(akcja, nick, wypozyczone_przez, data_zwrotu, rezerwacj
 
 def aktualizuj_dane_ksiazki(tytul, autor, wypozyczone_przez, data_zwrotu, rezerwacja, akcja, nick):
 
-    dt = datetime.date.today()
-
-    month = dt.month
-    year = dt.year + month // 12
-    month = month % 12 + 1
-    day = min(dt.day, calendar.monthrange(year, month)[1])
-
     with open("katalog.csv", "r", newline="") as catalog_in, open('katalog_new.csv', "w", newline="") as catalog_out:
 
         pozycja_istnieje = 0
@@ -250,13 +243,6 @@ def rezerwuj_ksiazke(nick):
 
 def wypozycz_ksiazke(nick):
 
-    dt = datetime.date.today()
-
-    month = dt.month
-    year = dt.year + month // 12
-    month = month % 12 + 1
-    day = min(dt.day, calendar.monthrange(year, month)[1])
-
     tytul = input("Podaj tytuł: ")
     autor = input("Podaj autora: ")
 
@@ -290,4 +276,3 @@ def library():
 
 
 library()
-
