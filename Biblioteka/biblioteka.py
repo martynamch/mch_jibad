@@ -1,3 +1,5 @@
+# to nie jest zadanie na jeden plik
+
 import csv
 import os.path
 import datetime
@@ -22,15 +24,15 @@ def menu(options):
                 func, args, kwargs = options[choice - 1][1]
                 return func(*args, **kwargs)
         except ValueError:
-            pass
+            pass  # pusty except wymaga komentarza
 
-def dodaj_ksiazke():
+def dodaj_ksiazke():  # ta funkcja łączy dialog z użytkownikiem i logikę biznesową
 
     tytul = input("Podaj tytuł: ")
     autor = input("Podaj autora: ")
     klucz = input("Podaj słowa kluczowe: ")
 
-    if (not os.path.isfile("katalog.csv")):
+    if not os.path.isfile("katalog.csv"):
         with open("katalog.csv", "w", newline="") as catalog:
             headers = ["Tytul", "Autor", "Slowa kluczowe", "Wypozyczone przez", "Data zwrotu", "Zarezerwowane przez"]
             writer = csv.DictWriter(catalog, fieldnames=headers)
@@ -41,7 +43,7 @@ def dodaj_ksiazke():
                              "Wypozyczone przez": "-",
                              "Data zwrotu": str(datetime.date(9999,1,1)),
                              "Zarezerwowane przez": "-"})
-    else:
+    else:  # DRY
         with open("katalog.csv", "a", newline="") as catalog:
             headers = ["Tytul", "Autor", "Slowa kluczowe", "Wypozyczone przez", "Data zwrotu", "Zarezerwowane przez"]
             writer = csv.DictWriter(catalog, fieldnames=headers)
@@ -103,12 +105,12 @@ def przegladaj_po(kolumna):
 
 def ocen_poprawnosc_akcji(akcja, nick, wypozyczone_przez, data_zwrotu, rezerwacja):
 
-    poprawna = 1
+    poprawna = True
     wiadomosc = ""
 
     if akcja=="prolonguj":
         if wypozyczone_przez != nick:
-            poprawne = 0
+            poprawne = False
             wiadomosc = "Ta ksiazka nie jest wypozyczona prze Ciebie. Nie mozesz prolongowac."
         else:
             if data_zwrotu != str(datetime.date(9999,1,1)):
@@ -152,14 +154,14 @@ def aktualizuj_dane_ksiazki(tytul, autor, wypozyczone_przez, data_zwrotu, rezerw
     
     with open("katalog.csv", "r", newline="") as catalog_in, open('katalog_new.csv', "w", newline="") as catalog_out:
 
-        pozycja_istnieje = 0
+        pozycja_istnieje = False
         headers = ["Tytul", "Autor", "Slowa kluczowe", "Wypozyczone przez", "Data zwrotu", "Zarezerwowane przez"]
         writer = csv.DictWriter(catalog_out, fieldnames=headers)
         writer.writeheader()
         for row in csv.DictReader(catalog_in, delimiter=','):
             if row["Tytul"].lower() == tytul.lower() and row["Autor"].lower() == autor.lower():
 
-                pozycja_istnieje = 1
+                pozycja_istnieje = True
                 katalog_wypozyczone_przez = row["Wypozyczone przez"]
                 katalog_data_zwrotu = row["Data zwrotu"]
                 katalog_rezerwacja = row["Zarezerwowane przez"]
@@ -170,9 +172,9 @@ def aktualizuj_dane_ksiazki(tytul, autor, wypozyczone_przez, data_zwrotu, rezerw
                 wiadomosc = ocen_poprawnosc_akcji(akcja, nick, katalog_wypozyczone_przez,
                                                        katalog_data_zwrotu, katalog_rezerwacja)[1]
 
-                if poprawna_akcja == 1:
+                if poprawna_akcja:
 
-                    if rezerwacja==0:
+                    if not rezerwacja:
                         rezerwacja = row["Zarezerwowane przez"]
 
                     if wypozyczone_przez==0:
@@ -194,7 +196,7 @@ def aktualizuj_dane_ksiazki(tytul, autor, wypozyczone_przez, data_zwrotu, rezerw
                                      "Zarezerwowane przez": row["Zarezerwowane przez"]})
 
             else:
-                writer.writerow({"Tytul": row["Tytul"],
+                writer.writerow({"Tytul": row["Tytul"],  # DRY
                                  "Autor": row["Autor"],
                                  "Slowa kluczowe": row["Slowa kluczowe"],
                                  "Wypozyczone przez": row["Wypozyczone przez"],
