@@ -5,7 +5,7 @@ from sklearn import datasets
 
 
 def metric_choice(choice):
-    return choice
+    return choice   # ta funkcja nic nie wnosi
 
 def menu(options):
     options = list(options.items())
@@ -17,22 +17,22 @@ def menu(options):
             choice = int(input("Podaj numer: "))
             return choice
         except ValueError:
-            pass
+            pass  # pusty except wymaga komentarza
 
 def accuracy(predicted_list, actual_list):
     correct_predictions = 0
-    for i in range(len(predicted_list)):
+    for i in range(len(predicted_list)):  # nie dałoby się uniknąć tej pętli?
         if (predicted_list[i] == actual_list[i]):
             correct_predictions += 1
     return correct_predictions/len(predicted_list)
 
 def euclides_metric(x, y):
-    sum = 0
+    sum = 0  # przesłonięcie symbolu wbudowanego
     try:
-        for i in range(len(x)):
+        for i in range(len(x)):  # nie dałoby się uniknąć tej pętli?
             sum += pow((y[i] - x[i]), 2)
         return np.sqrt(sum)
-    except:
+    except:  # zamienił stryjek siekierkę na kijek - wyjątek jest lepszą sygnalizacją błędu niż print
         print("Not allowed")
 
 def taxi_metric(x, y):
@@ -54,14 +54,14 @@ def max_metric(x, y):
         print("Not allowed")
 
 def cosine_metric(x, y):
-    return np.dot(x, y) / (np.sqrt(np.dot(x, x)) * np.sqrt(np.dot(y, y)))
+    return np.dot(x, y) / (np.sqrt(np.dot(x, x)) * np.sqrt(np.dot(y, y)))  # 1-
 
 
 class KNN:
 
     def __init__(self, k):
         self.k = k
-        self.X_train=[]
+        self.X_train=[]  # lista?
         self.Y_train = []
 
 
@@ -77,13 +77,13 @@ class KNN:
         m = menu({"Euklidesowa": (metric_choice, 1, {}),
           "Taksówkowa": (metric_choice, (2), {}),
           "Maksimum": (metric_choice, (3), {}),
-          "Kosinusowa": (metric_choice, (4), {})
+          "Cosinusowa": (metric_choice, (4), {})
           })
 
         for x_tst in X_test:
             distance_list = []
             for x_trn in self.X_train:
-                if m==1:
+                if m==1:  # polecam słownik
                     distance = euclides_metric(x_tst, x_trn)
                 elif m==2:
                     distance = taxi_metric(x_tst, x_trn)
@@ -94,7 +94,7 @@ class KNN:
                 distance_list.extend([distance])
 
             index_dst = np.argsort(distance_list)
-            distances_knn = index_dst[: self.k]
+            distances_knn = index_dst[:self.k]
             knn = [self.Y_train[i] for i in distances_knn]
             predicted = Counter(knn).most_common()
             predictions.append(predicted[0][0])
