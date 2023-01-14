@@ -38,7 +38,7 @@ df_mean.plot(ax = ax, x = 'DATE_TIME', y = 'AC_POWER', color='green', label = "M
 plt.title("YearWeek: " + chosen_year_week + " Generator: " + chosen_generator)
 plt.show()
 
-df['mean'] = df[['DATE_TIME', 'AC_POWER']].groupby(by='DATE_TIME').transform('mean')
+df['mean'] = df[['DATE_TIME', 'AC_POWER']].groupby(by='DATE_TIME').transform('mean') # nie wygodniej by było od razu tego użyć?
 df_underperforming = df[df['AC_POWER']<0.8*df['mean']]
 df_u = df_underperforming.groupby(by='SOURCE_KEY').size()
 
